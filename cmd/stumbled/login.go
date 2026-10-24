@@ -3,12 +3,16 @@ package main
 import (
 	"crypto/hmac"
 	"crypto/sha256"
+	_ "embed"
 	"encoding/base64"
 	"encoding/json"
 	"log"
 	"net/http"
 	"time"
 )
+
+//go:embed user.json
+var userTemplate []byte
 
 // loginRequest is Backend.Login's body. Hash is a digest under a client-side constant; it proves
 // nothing about the player, so it is not checked.
@@ -39,52 +43,35 @@ func (s *server) login(w http.ResponseWriter, r *http.Request, body []byte) {
 // ScopelyId, FeatureFlags, EquippedCosmetics, HelpshiftUserIdentity}.
 func (s *server) userResponse(a *account, version, deviceID string) map[string]any {
 	photon := s.photonJWT(a)
-	user := map[string]any{
+	// Every field of the client's User, from the type's own shape (user.json): a null nested object
+	// (BattlePass, XpRoad, Settings, ...) throws inside the client's login handling.
+	var user map[string]any
+	json.Unmarshal(userTemplate, &user)
+	for k, v := range map[string]any{
 		"Id":                     a.ID,
 		"StumbleId":              a.StumbleID,
 		"DeviceId":               deviceID,
-		"ScopelyJWT":             "",
 		"Username":               a.Username,
 		"Country":                a.Country,
 		"Region":                 a.Region,
 		"Token":                  a.Token,
 		"Version":                version,
-		"VersionResult":          "",
-		"Friends":                []any{},
-		"Skins":                  []any{},
-		"SkinVariants":           []any{},
-		"Rewards":                []any{},
-		"Balances":               []any{},
 		"Created":                a.Created,
 		"LastLogin":              nowISO(),
-		"SkillRating":            0,
 		"Crowns":                 a.Crowns,
-		"HiddenRating":           0,
 		"Experience":             a.XP,
-		"NewsVersion":            0,
-		"AvailableNewsVersion":   0,
-		"LatestNewsIdBackend":    0,
-		"Emotes":                 []any{},
-		"Animations":             []any{},
-		"Footsteps":              []any{},
-		"ActionEmotes":           []any{},
-		"HasBattlePass":          false,
-		"PassTokens":             0,
-		"FreePassRewards":        []any{},
-		"PremiumPassRewards":     []any{},
-		"KidFriendlyMode":        0,
 		"Age":                    18,
 		"TermsOfServiceAccepted": true,
-		"FeaturesEnabled":        []any{},
 		"SecondsSinceCreated":    secondsSince(a.Created),
 		"PhotonJwt":              photon,
-		"NativePlatformId":       "",
 		"NativePlatformName":     "Switch",
-		"PlatformType":           0,
-		"Inventory":              []any{},
-		"InventoryShards":        map[string]any{},
-		"HelpshiftUserIdentity":  "",
-		"OfferSequenceState":     []any{},
+	} {
+		user[k] = v
+	}
+	equipped := user["EquippedCosmetics"]
+	if len(a.Equipped) > 0 {
+		equipped = a.Equipped
+		user["EquippedCosmetics"] = a.Equipped
 	}
 	resp := map[string]any{
 		"User":                   user,
@@ -93,9 +80,7 @@ func (s *server) userResponse(a *account, version, deviceID string) map[string]a
 		"ScopelyId":              "",
 		"FeatureFlags":           []any{},
 		"HelpshiftUserIdentity":  "",
-	}
-	if len(a.Equipped) > 0 {
-		resp["EquippedCosmetics"] = a.Equipped
+		"EquippedCosmetics":      equipped,
 	}
 	return resp
 }
@@ -127,4 +112,17 @@ func (s *server) signJWT(claims map[string]any) string {
 	m := hmac.New(sha256.New, s.key)
 	m.Write([]byte(msg))
 	return msg + "." + enc.EncodeToString(m.Sum(nil))
+}
+
+// equip stores the client's UserEquippedCosmeticsDto and echoes it back.
+func (s *server) equip(w http.ResponseWriter, r *http.Request, body []byte) {
+	a := s.users.byToken(requestIdentity(r).Session)
+	if a == nil || !json.Valid(body) {
+		logRequest("api equip (no session)", r, body)
+		writeJSON(w, http.StatusOK, json.RawMessage(body))
+		return
+	}
+	s.users.update(a, func(a *account) { a.Equipped = append(json.RawMessage(nil), body...) })
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(body)
 }

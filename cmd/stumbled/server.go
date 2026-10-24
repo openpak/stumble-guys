@@ -69,6 +69,8 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		host = host[:i]
 	}
 	path := r.URL.Path
+	id := requestIdentity(r)
+	log.Printf("[stumble] <- %s %s%s session=%t nsa=%t len=%d", r.Method, host, r.URL.RequestURI(), id.Session != "", id.NSAID != "", len(body))
 	switch {
 	case strings.HasPrefix(host, "matchmaking."):
 		s.matchmaking(w, r, path, body)
@@ -95,6 +97,11 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]any{"Online": true})
 	case "/feature-flags":
 		writeJSON(w, http.StatusOK, []any{})
+	case "/bots":
+		// A list of BotDefinition; an empty list makes the client add its own built-in bots.
+		writeJSON(w, http.StatusOK, []any{})
+	case "/user-equipped-cosmetics/update":
+		s.equip(w, r, body)
 	case "/matchmaking/create/signature/latest", "/matchmaking/tournamentX/signature":
 		s.matchmakingTicket(w, r, body)
 	default:
