@@ -1,0 +1,395 @@
+{
+ "MinDeviceTierDesyncTool": 0,
+ "ChecksumIntervalDesyncTool": 0,
+ "RateUs": {
+  "MaxAppearances": 0,
+  "MaxDisconnects": 0,
+  "CooldownInHours": 0,
+  "GamesPlayedInterval": 0,
+  "IsRateUsAvailable": false,
+  "TriggersConfig": {
+   "WinGames": null
+  },
+  "iOSRateUsMode": 0,
+  "AndroidRateUsMode": 0,
+  "LinkToSurvey": ""
+ },
+ "CustomPartySettings": {
+  "MaxStartingPlayers": 0,
+  "MaxStartingRounds": 0,
+  "PlayWithBotsSelected": false,
+  "ExcludedMapsPerRound": {},
+  "RoundsLogic": [],
+  "RoundsQualificationLogic": {}
+ },
+ "FriendsListSettings": {
+  "MaxFriendsNumber": 0,
+  "SecondsToRefreshFriendsData": 0,
+  "NickNameColor": "",
+  "SecondsToInviteAgainToAParty": 0
+ },
+ "BattlePass": {
+  "Title": "",
+  "ThemeName": "",
+  "PremiumCost": 0,
+  "TierCost": 0,
+  "PassID": 0,
+  "PremiumTierToDisplay": null,
+  "PremiumPopupImage": "",
+  "PremiumPopupTextKey": "",
+  "MultiBuyDiscounts": [],
+  "ShopOfferID": "",
+  "Tiers": [],
+  "PlatformTierOverride": {}
+ },
+ "RemoteCatalog": {
+  "Hash": "",
+  "ContentBuildHash": {}
+ },
+ "BattlePasses": [],
+ "BattlePassesV3": [],
+ "Currencies": {
+  "General": [
+   {
+    "DefaultAmount": 1000,
+    "MaxAmount": 0,
+    "Name": "coins",
+    "SecondsPerUnit": 0,
+    "UnitCost": 0.1
+   }
+  ]
+ },
+ "PurchasableItems": [],
+ "AdSettings": {
+  "RewardedDisabled": false,
+  "RewardedCount": 0,
+  "DisableForDevices": [],
+  "SteamAdSettings": {
+   "Capping": {}
+  }
+ },
+ "ShopDef": {
+  "GeneralConfig": {
+   "RedirectToRecommendedCurrencyOffer": false,
+   "TriggerRecommendedCurrencyOfferBuyPopup": false,
+   "RecommendedCurrencyOffers": {}
+  },
+  "Categories": [],
+  "OfferRotations_v2": [],
+  "OfferPopupMinSeconds": 0,
+  "Offers_v2": [],
+  "Gachas": [],
+  "LuckySpinWheel": {
+   "Id": "",
+   "ShopItemHeader": "",
+   "ShopItemDescription": "",
+   "ShopItemBackgroundImage": "",
+   "PopupHeader": "",
+   "PopupSubHeader": "",
+   "PopupDescription": "",
+   "PopupBackgroundImage": "",
+   "SpinHeader": "",
+   "LuckySpinWheelPurchasableItem": "",
+   "RotationItemList": [],
+   "SpinVisualDropsList": [],
+   "DropChancesVisuals": {},
+   "AdSpinCooldownSeconds": 0,
+   "GlobalResetTimeSeconds": 0,
+   "RawGlobalResetTimeSeconds": 0,
+   "GlobalResetTimeOffsetSeconds": 0,
+   "AdSpinMaxAmountPerCycle": 0,
+   "SpinMode": null,
+   "OpenPopupFromMainLobby": false,
+   "Category": "",
+   "Priority": 0
+  },
+  "ClassicSpinWheel": {
+   "SpinHeader": ""
+  },
+  "LuckySpinWheelPurchasableItems": [],
+  "CreatorCode": {
+   "Id": "",
+   "ShopItemHeader": "",
+   "ShopItemSupportingDescription": "",
+   "ShopItemNotSupportingDescription": "",
+   "ShopItemBackgroundImage": "",
+   "SecondsToRefreshData": 0
+  },
+  "BattlePass": [],
+  "AnchorOffers": [],
+  "OfferSequences": []
+ },
+ "MatchmakingPools": [],
+ "Levels": [],
+ "Skins_v4": [],
+ "Footsteps_v2": [],
+ "Emotes_v2": [],
+ "Animations_v2": [],
+ "RoundLevels_v2": [],
+ "ExcludedLevels": {
+  "Groups": []
+ },
+ "RoundRewards": [],
+ "GeneralSettings": {
+  "AskNewConsent": false,
+  "MatchmakingTimes": [],
+  "SkinDrops_v2": {
+   "Purchases": []
+  },
+  "DropSettings": {
+   "DropDefs_v2": [],
+   "Purchases": []
+  },
+  "OverrideLevels": [],
+  "UseOverrideLevels": false,
+  "UseLegacyNews": false,
+  "SocialLinks": {
+   "EnableSocialLinks": false,
+   "GlobalLinks": [],
+   "CountrySettings": []
+  },
+  "RoomCode": {
+   "Max": 0,
+   "Min": 0
+  },
+  "NameChangePrices": [],
+  "TermsOfServiceURL": "",
+  "PrivacyPolicyURL": "",
+  "OldTermsOfServiceURL": "",
+  "OldPrivacyPolicyURL": "",
+  "GooglePlayBundleId": "",
+  "AppStoreApplicationId": "",
+  "SteamAppId": "",
+  "SupportURL": "",
+  "AuthorizeTransferredAppleId": false,
+  "Rarities": [],
+  "PlatformStoreConfigurations": [],
+  "MissionResetLoadingTimeRandomRange": [],
+  "LocalPartySettings": [],
+  "ClientPlatformFlags": [],
+  "AndroidInstallRefer": false,
+  "SteamPurchaseGems": 0,
+  "ConsensusRoundWaitMaxWaitSeconds": 0,
+  "ConsensusRewardsWaitMaxWaitSeconds": 0
+ },
+ "InGameNotifications": {
+  "TimeDisplayingNotification": 0,
+  "PartyInviteBlackoutSeconds": 0
+ },
+ "Versions": {
+  "MinimumVersionToPlay": "",
+  "AndroidLastVersionAvailable": "",
+  "IOSLastVersionAvailable": "",
+  "SteamLastVersionAvailable": "",
+  "ConsoleMinimumVersionToPlay": ""
+ },
+ "SupportSettings": {
+  "EnableSupportRequests": false,
+  "SendAnyLogs": false,
+  "SendNormalLogs": false,
+  "MaxLogConditionLength": 0,
+  "SkipLogsStartingWith": []
+ },
+ "PhotonSettings": {
+  "ClientDisconnectTimeoutMillis": 0,
+  "ClientSentCountAllowance": 0,
+  "MatchmakingTimeoutSeconds": 0,
+  "PhotonServiceTimeWarningThresholdSeconds": 0,
+  "DelayToCloseRoomSeconds": 0,
+  "NetworkKeepAlive": false,
+  "DisconnectAfterKeepAlive": false,
+  "DisconnectAfterKeepAliveMatchmaking": false,
+  "NetworkKeepAliveTime": 0,
+  "NetworkKeepAliveTimeMatchmaking": 0,
+  "MatchmakingLoadWaitTimerSeconds": 0,
+  "MaxRoomMergeSearchTimeSeconds": 0,
+  "ExtraTimeToJoinMasterIfPartyMergeFailedSeconds": 0,
+  "MaxTotalTimeToForceDisconnectSeconds": 0,
+  "QuantumRuntimeConfig": {
+   "LevelPickFrame": 0,
+   "LevelIntroFrame": 0,
+   "StartTimerFrame": 0,
+   "GameStartFrame": 0
+  },
+  "BotsSettings": {
+   "MinAddTimer": 0,
+   "MaxAddTimer": 0,
+   "MaxChanceToSlowDownBotTimerIncrease": 0,
+   "MinChanceToSlowDownBotTimerIncrease": 0,
+   "MaxBotTimerIncreaseSlow": 0,
+   "MinBotTimerIncreaseSlow": 0,
+   "MaxBotTimerIncreaseFast": 0,
+   "MinBotTimerIncreaseFast": 0
+  },
+  "TournamentRoundsSettings": {
+   "ExpectedPlayersOnTournamentSecondRound": 0,
+   "ExpectedPlayersOnTournamentThirdRound": 0
+  },
+  "RegionsWithMergeParties": [],
+  "RegionsWithRoomManagement": [],
+  "RegionsWithPluginFactory": [],
+  "AmountOfPingsToConsiderItAHighConfidentPing": 0,
+  "PingCalculationIntervalSeconds": 0,
+  "GoodPingThreshold": 0,
+  "MinimumPingDifferenceToRecommendAChange": 0,
+  "ManualDisconnectTimeout": 0,
+  "MapHydrationTimeoutSeconds": 0,
+  "MapBakingTimeoutSeconds": 0,
+  "CarouselWarningThresholdSeconds": 0,
+  "PhotonRegions": [],
+  "DefaultPhotonRegionsConfiguration": {
+   "RegionsByCountry": [],
+   "RegionsByContinent": [],
+   "DefaultRegion": ""
+  },
+  "MultiplayerFlowSettings": {
+   "CommandRoundEndTimeoutSeconds": 0,
+   "PhotonPropertiesTimeoutSeconds": 0
+  },
+  "PhotonAppIdMappers": []
+ },
+ "DisconnectRetry": {
+  "BaseMaxRetries": 0,
+  "MaxTotalTimeToForceStopRetryingSeconds": 0,
+  "DisconnectsThatNeedRetry": []
+ },
+ "ErrorPopupConfig": {
+  "PopupInfoPerErrorCode": {}
+ },
+ "UseFirebase": false,
+ "DisableAdmob": false,
+ "DisableAds": false,
+ "BackendUrl": "https://api.stumbleguys.com",
+ "SharedType": "",
+ "AnalyticsSettings": {
+  "PerformanceAnalyticsIntervalMinutes": 0
+ },
+ "_SharedVersion": 1,
+ "PusherSettings": {
+  "RetrySeconds": 0
+ },
+ "GameEvents": [],
+ "GameEventProgressions": [],
+ "GameEventXPTypes": [],
+ "GameEventsLeaderboardRewards": [],
+ "Missions": [],
+ "MissionRequirementTypes": [],
+ "MissionObjectives": [],
+ "LocalNotifications": {},
+ "EndOfMatchReward": {
+  "GameCurrencies": [],
+  "Items": []
+ },
+ "Shards": {
+  "RarityCost": {},
+  "DuplicateBank": [],
+  "ShardsSources": {},
+  "ShardsToDuplicateBankXp": {}
+ },
+ "Themes": {
+  "ThemeDict": {},
+  "Themes": [],
+  "ThemesXbox": [],
+  "ThemesPlayStation": [],
+  "ThemesSwitch": []
+ },
+ "CurrencyMetadata": {
+  "CurrencyMetadata": {}
+ },
+ "LootBoxes": {
+  "LootBoxes": [],
+  "LootTables": {},
+  "Assets": {
+   "DefaultIconId": "",
+   "Assets": []
+  }
+ },
+ "BackgroundDownloadConfig": {
+  "WebRequestCapacity": 0,
+  "PreventCancelAtPercent": 0,
+  "PreventCancelAtMegaBytesLeft": 0
+ },
+ "BattlePassBoosts": [],
+ "TournamentXConfig": {
+  "RequestActiveTournamentsRateLimitSeconds": 0,
+  "OverrideMatchmakingPoolsForRegions": [],
+  "TargetOverrideMatchmakingPool": 0
+ },
+ "RankedPlaySettings": {
+  "Ranks": [],
+  "Seasons": [],
+  "WaitForPlacementsMaxWaitSeconds": 0
+ },
+ "MessageRewards": [],
+ "XpRoad": {
+  "Levels": [],
+  "EndlessLevel": {
+   "Level": 0,
+   "RequiredXP": 0,
+   "Rewards": []
+  },
+  "SegmentedLevelRewards": {},
+  "SegmentedEndlessLevelRewards": ""
+ },
+ "ActionEmotes": {
+  "ActionEmotes": [],
+  "SocialEmoteMigrationConfig": {
+   "MigrationTier": 0,
+   "SocialEmoteSkinMigrationConfig": {}
+  }
+ },
+ "GlobalLtcEventConfig": {
+  "GlobalLtcMetaEvents": []
+ },
+ "CosmeticsConfig": {
+  "CosmeticAvailabilitySegment": ""
+ },
+ "RewardedVideos": {
+  "RewardedVideos": []
+ },
+ "SpeedRunSeasons": [],
+ "Discoverability": {
+  "Tabs": [],
+  "PlayCount": {
+   "MinimumGlobalPlayCountRange": null,
+   "RequestCooldownSeconds": 0
+  }
+ },
+ "DynamicContainerConfig": {
+  "ContainerSegments": [],
+  "ContainerItems": []
+ },
+ "LevelsSettings": {
+  "BotVisuals": []
+ },
+ "Clans": {
+  "ClanMissionObjectives": [],
+  "ClanActionPrices": {},
+  "ClanNameMinLength": 0,
+  "ClanNameMaxLength": 0,
+  "ClanTagMinLength": 0,
+  "ClanTagMaxLength": 0,
+  "MaxMembersPerClan": 0,
+  "ClanInvitationExpiryTime": "00:00:00",
+  "MaxClanInvitationsPerUser": 0,
+  "MaxClanInvitationsPerClan": 0,
+  "ValidLogoForegrounds": [],
+  "ValidLogoBackgrounds": [],
+  "ValidColourSchemes": [],
+  "ValidLanguageCodes": []
+ },
+ "OneStopShop": {
+  "ShopHeader": "",
+  "ShopSections": [],
+  "Offers": [],
+  "Catalogs": []
+ },
+ "DesyncToolConfig": {
+  "MinDeviceTier": 0,
+  "ChecksumInterval": 0,
+  "SnapshotsPerSecond": 0,
+  "SnapshotsLengthSeconds": 0,
+  "GameModesValidated": [],
+  "ForceAddingTool": false
+ }
+}
