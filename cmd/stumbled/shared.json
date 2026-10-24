@@ -236,17 +236,31 @@
   "MapHydrationTimeoutSeconds": 0,
   "MapBakingTimeoutSeconds": 0,
   "CarouselWarningThresholdSeconds": 0,
-  "PhotonRegions": [],
+  "PhotonRegions": [
+   {
+    "RegionCode": "eu",
+    "IsAvailable": true,
+    "LocalizedNameKey": "",
+    "LocalizedCodeKey": ""
+   }
+  ],
   "DefaultPhotonRegionsConfiguration": {
    "RegionsByCountry": [],
    "RegionsByContinent": [],
-   "DefaultRegion": ""
+   "DefaultRegion": "eu"
   },
   "MultiplayerFlowSettings": {
    "CommandRoundEndTimeoutSeconds": 0,
    "PhotonPropertiesTimeoutSeconds": 0
   },
-  "PhotonAppIdMappers": []
+  "PhotonAppIdMappers": [
+   {
+    "AppId": "d5750eb9-cd08-4683-8acb-ab4eaff437ed",
+    "Platforms": [],
+    "MinVersion": "",
+    "MaxVersion": ""
+   }
+  ]
  },
  "DisconnectRetry": {
   "BaseMaxRetries": 0,
