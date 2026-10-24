@@ -3,8 +3,10 @@ package main
 import (
 	"bytes"
 	"compress/gzip"
+	"crypto/sha256"
 	_ "embed"
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -19,10 +21,11 @@ import (
 var builtinShared []byte
 
 type server struct {
-	users  *store
-	shared json.RawMessage
-	key    []byte
-	mm     *matchmaker
+	users     *store
+	shared    json.RawMessage
+	sharedTag string
+	key       []byte
+	mm        *matchmaker
 }
 
 func keyFromEnv(flagValue string) []byte {
@@ -50,7 +53,9 @@ func newServer(dataDir, sharedFile string, key []byte) (*server, error) {
 	if !json.Valid(shared) {
 		return nil, fmt.Errorf("game config is not valid JSON")
 	}
-	return &server{users: st, shared: shared, key: key, mm: newMatchmaker()}, nil
+	sum := sha256.Sum256(shared)
+	tag := `"` + hex.EncodeToString(sum[:8]) + `"`
+	return &server{users: st, shared: shared, sharedTag: tag, key: key, mm: newMatchmaker()}, nil
 }
 
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -77,7 +82,13 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case "/user/login":
 		s.login(w, r, body)
 	case "/user/config":
+		// The client caches the config under its ETag and sends If-none-match next time.
 		logRequest("api", r, nil)
+		w.Header().Set("ETag", s.sharedTag)
+		if r.Header.Get("If-None-Match") == s.sharedTag {
+			w.WriteHeader(http.StatusNotModified)
+			return
+		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(s.shared)
 	case "/onlinecheck":
