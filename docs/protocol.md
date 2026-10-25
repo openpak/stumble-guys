@@ -66,3 +66,14 @@ LSB-first bit stream of `[message id: 8 bits][message fields]...`. Message ids:
 Primitives: bool = 1 bit; int/uint = 32 bits; long/ulong = 64 bits (low word first); double = 8
 raw bytes; string = 1 bit "is null", then u16 byte length and UTF-8 bytes; byte[] and int[] = 1
 bit "present", u16 count, elements.
+
+## From the previous README
+
+Stumble Guys on Nintendo Switch (`0100A9E01AE9A000`) plays online through these services:
+
+| What | Where | Served by |
+| --- | --- | --- |
+| Sign-in, profile, inventory, game config, rewards, friends, party | `api.stumbleguys.com` (REST, JSON) | this repo (`stumbled`) |
+| Matchmaking (room assignment) | `matchmaking.stumbleguys.com` | this repo (`stumbled`) |
+| Localization | `localization.stumbleguys.com` | this repo (`stumbled`) |
+| Rounds | Photon Quantum 2 on Photon Realtime | [`photon`](https://github.com/openpak/photon) |
