@@ -13,6 +13,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -74,6 +75,12 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case strings.HasPrefix(host, "matchmaking."):
 		s.matchmaking(w, r, path, body)
+		return
+	case strings.HasSuffix(host, ".collector.scopely.io"):
+		// Scopely's analytics collectors: the game's startup funnel and error events. Kept whole
+		// (data/collector/) because they are the only view of where the client stops.
+		s.keepCollector(r, host, body)
+		writeJSON(w, http.StatusOK, map[string]any{})
 		return
 	case strings.HasPrefix(host, "localization."):
 		logRequest("loc", r, body)
@@ -183,3 +190,15 @@ func jwtClaim(tok, claim string) string {
 }
 
 func nowISO() string { return time.Now().UTC().Format(time.RFC3339) }
+
+func (s *server) keepCollector(r *http.Request, host string, body []byte) {
+	dir := filepath.Join(s.users.dir(), "collector")
+	os.MkdirAll(dir, 0o755)
+	name := filepath.Join(dir, time.Now().UTC().Format("20060102T150405.000000")+"-"+strings.SplitN(host, ".", 3)[1]+".json")
+	os.WriteFile(name, body, 0o644)
+	b := string(body)
+	if len(b) > 1500 {
+		b = b[:1500] + "..."
+	}
+	log.Printf("[stumble] collector %s %s%s %dB body=%s", r.Method, host, r.URL.RequestURI(), len(body), b)
+}

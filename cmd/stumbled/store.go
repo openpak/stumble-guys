@@ -109,3 +109,5 @@ func itoa(n int) string {
 	b, _ := json.Marshal(n)
 	return string(b)
 }
+
+func (s *store) dir() string { return filepath.Dir(s.path) }
