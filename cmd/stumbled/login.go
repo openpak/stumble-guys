@@ -41,7 +41,19 @@ func (s *server) login(w http.ResponseWriter, r *http.Request, body []byte) {
 
 // userResponse is the client's BackendUserResponse: {User, TermsOfServiceAccepted, PhotonJwt,
 // ScopelyId, FeatureFlags, EquippedCosmetics, HelpshiftUserIdentity}.
-func (s *server) userResponse(a *account, version, deviceID string) map[string]any {
+// userResponse is a struct, not a map: the client only takes the user from a response whose text
+// starts with {"User": (Backend.HandleResponse checks the prefix), and Go sorts map keys.
+type userResponse struct {
+	User                   map[string]any `json:"User"`
+	TermsOfServiceAccepted bool           `json:"TermsOfServiceAccepted"`
+	PhotonJwt              string         `json:"PhotonJwt"`
+	ScopelyId              string         `json:"ScopelyId"`
+	FeatureFlags           []any          `json:"FeatureFlags"`
+	HelpshiftUserIdentity  string         `json:"HelpshiftUserIdentity"`
+	EquippedCosmetics      any            `json:"EquippedCosmetics"`
+}
+
+func (s *server) userResponse(a *account, version, deviceID string) userResponse {
 	photon := s.photonJWT(a)
 	// Every field of the client's User, from the type's own shape (user.json): a null nested object
 	// (BattlePass, XpRoad, Settings, ...) throws inside the client's login handling.
@@ -73,16 +85,13 @@ func (s *server) userResponse(a *account, version, deviceID string) map[string]a
 		equipped = a.Equipped
 		user["EquippedCosmetics"] = a.Equipped
 	}
-	resp := map[string]any{
-		"User":                   user,
-		"TermsOfServiceAccepted": true,
-		"PhotonJwt":              photon,
-		"ScopelyId":              "",
-		"FeatureFlags":           []any{},
-		"HelpshiftUserIdentity":  "",
-		"EquippedCosmetics":      equipped,
+	return userResponse{
+		User:                   user,
+		TermsOfServiceAccepted: true,
+		PhotonJwt:              photon,
+		FeatureFlags:           []any{},
+		EquippedCosmetics:      equipped,
 	}
-	return resp
 }
 
 func secondsSince(iso string) int {
