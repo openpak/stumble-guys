@@ -39,7 +39,6 @@ GOWORK=off go build -o stumbled ./cmd/stumbled
 - [Notes](docs/notes.md)
 - [Ports](docs/ports.md)
 - [Provenance](docs/provenance.md)
-- [Next session](docs/next-session.md)
 
 Live compatibility status: [openpak.org/titles#t-72378](https://openpak.org/titles#t-72378).
 
