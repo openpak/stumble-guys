@@ -77,3 +77,15 @@ Stumble Guys on Nintendo Switch (`0100A9E01AE9A000`) plays online through these 
 | Matchmaking (room assignment) | `matchmaking.stumbleguys.com` | this repo (`stumbled`) |
 | Localization | `localization.stumbleguys.com` | this repo (`stumbled`) |
 | Rounds | Photon Quantum 2 on Photon Realtime | [`photon`](https://github.com/openpak/photon) |
+
+## Design and sources
+
+Rounds are deterministic lockstep: every console simulates the round and the Photon server only
+relays inputs and keeps the clock. Sign-in, the game config and matchmaking are stubbed from the
+contract above; inventory is "own everything" and there are no real-money paths.
+
+Only the owner's own game client was examined (clean room); no server code of the developer,
+Scopely or Exit Games was seen. The hosts and client version come from the live environment
+settings asset in the Switch RomFS; header names, login fields, routes, matchmaking types and
+status values from the Switch executable and its IL2CPP metadata; Quantum event codes, message
+ids, field order and bit stream layout from the client's send/receive and Serialize code.
