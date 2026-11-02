@@ -34,7 +34,6 @@ GOWORK=off go build -o stumbled ./cmd/stumbled
 ## Docs
 
 - [Protocol](docs/protocol.md)
-- [Evidence](docs/evidence.md)
 - [Deploy](docs/deploy.md)
 - [Notes](docs/notes.md)
 - [Ports](docs/ports.md)
