@@ -22,3 +22,10 @@ routed by `Host`. Unknown routes are logged with their body and answered `{}`.
 | `-data` | directory for `users.json` |
 | `-shared` | a game config (SharedData JSON) to serve instead of the built-in one |
 | `-jwt-key` / `STUMBLE_JWT_KEY` | HMAC key for the Photon and matchmaking tokens |
+
+## Rewards session events
+
+This host sends none. stumbled assigns a Photon room at matchmaking (`OP_<hex>` plus the users list) but the round
+runs in Photon Quantum, so joins, leaves and the time spent in the room are invisible here, and players are
+partly bots. A 3-minute session cannot be proven from matchmaking alone. Any
+`game_sessions.stumble-guys` events must come from the photon host.
