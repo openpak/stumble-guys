@@ -8,7 +8,7 @@ import (
 
 // The client keeps the user only from a response that starts with {"User": (Backend.HandleResponse).
 func TestLoginResponseStartsWithUser(t *testing.T) {
-	s, err := newServer(t.TempDir(), "", []byte("k"))
+	s, err := newServer(testDSN(t), "", "", []byte("k"))
 	if err != nil {
 		t.Fatal(err)
 	}

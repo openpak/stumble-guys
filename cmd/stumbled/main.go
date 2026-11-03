@@ -15,19 +15,21 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
 var (
 	addr       = flag.String("addr", ":23550", "plain HTTP listen address (behind the TLS terminator)")
 	healthAddr = flag.String("health-addr", ":23552", "health listen address")
-	dataDir    = flag.String("data", "./data", "directory for the user store")
+	dataDir    = flag.String("data", "./data", "legacy directory with users.json and collector/ to import into Postgres once (files are kept)")
 	sharedFile = flag.String("shared", "", "game config (SharedData JSON) to serve instead of the built-in one")
+	dbURL      = flag.String("database-url", "", "Postgres URL (env STUMBLE_DATABASE_URL)")
 	jwtKey     = flag.String("jwt-key", "", "HMAC key for the Photon and matchmaking tokens (env STUMBLE_JWT_KEY)")
 )
 
 func main() {
 	flag.Parse()
-	s, err := newServer(*dataDir, *sharedFile, keyFromEnv(*jwtKey))
+	s, err := newServer(dbFromEnv(*dbURL), *dataDir, *sharedFile, keyFromEnv(*jwtKey))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,4 +41,11 @@ func main() {
 	}()
 	log.Printf("[stumble] serving HTTP on %s", *addr)
 	log.Fatal(http.ListenAndServe(*addr, s))
+}
+
+func dbFromEnv(flagValue string) string {
+	if flagValue != "" {
+		return flagValue
+	}
+	return os.Getenv("STUMBLE_DATABASE_URL")
 }

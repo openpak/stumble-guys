@@ -19,7 +19,8 @@ routed by `Host`. Unknown routes are logged with their body and answered `{}`.
 
 | Flag / env | Meaning |
 | --- | --- |
-| `-data` | directory for `users.json` |
+| `-database-url` / `STUMBLE_DATABASE_URL` | Postgres URL (required) |
+| `-data` | legacy directory with `users.json` and `collector/`, imported once into Postgres, files kept |
 | `-shared` | a game config (SharedData JSON) to serve instead of the built-in one |
 | `-jwt-key` / `STUMBLE_JWT_KEY` | HMAC key for the Photon and matchmaking tokens |
 

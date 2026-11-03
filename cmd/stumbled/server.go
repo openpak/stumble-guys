@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"compress/gzip"
+	"context"
 	"crypto/sha256"
 	_ "embed"
 	"encoding/base64"
@@ -13,7 +14,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 	"strings"
 	"time"
 )
@@ -40,8 +40,10 @@ func keyFromEnv(flagValue string) []byte {
 	return []byte("openpak-stumble-dev")
 }
 
-func newServer(dataDir, sharedFile string, key []byte) (*server, error) {
-	st, err := openStore(dataDir)
+func newServer(dsn, importDir, sharedFile string, key []byte) (*server, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	st, err := openStore(ctx, dsn, importDir)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +80,7 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	case strings.HasSuffix(host, ".collector.scopely.io"):
 		// Scopely's analytics collectors: the game's startup funnel and error events. Kept whole
-		// (data/collector/) because they are the only view of where the client stops.
+		// (table stumble_collector) because they are the only view of where the client stops.
 		s.keepCollector(r, host, body)
 		writeJSON(w, http.StatusOK, map[string]any{})
 		return
@@ -192,10 +194,7 @@ func jwtClaim(tok, claim string) string {
 func nowISO() string { return time.Now().UTC().Format(time.RFC3339) }
 
 func (s *server) keepCollector(r *http.Request, host string, body []byte) {
-	dir := filepath.Join(s.users.dir(), "collector")
-	os.MkdirAll(dir, 0o755)
-	name := filepath.Join(dir, time.Now().UTC().Format("20060102T150405.000000")+"-"+strings.SplitN(host, ".", 3)[1]+".json")
-	os.WriteFile(name, body, 0o644)
+	s.users.keepCollector(host, body)
 	b := string(body)
 	if len(b) > 1500 {
 		b = b[:1500] + "..."

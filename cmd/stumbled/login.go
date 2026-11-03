@@ -35,6 +35,10 @@ func (s *server) login(w http.ResponseWriter, r *http.Request, body []byte) {
 		return
 	}
 	a := s.users.get(key)
+	if a == nil {
+		writeJSON(w, http.StatusServiceUnavailable, map[string]any{"error": "unavailable"})
+		return
+	}
 	log.Printf("[stumble] login user=%d version=%s nsa=%t", a.ID, req.Version, id.NSAID != "")
 	writeJSON(w, http.StatusOK, s.userResponse(a, req.Version, req.DeviceId))
 }
