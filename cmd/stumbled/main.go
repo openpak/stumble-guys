@@ -33,8 +33,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	s.links = newLinksFromEnv()
 	go func() {
 		h := http.NewServeMux()
+		h.HandleFunc("/internal/accounts/", eraseHandler("stumble-guys", s.erase))
 		h.HandleFunc("/health", func(w http.ResponseWriter, _ *http.Request) { io.WriteString(w, "ok\n") })
 		log.Printf("[stumble] health on %s", *healthAddr)
 		log.Fatal(http.ListenAndServe(*healthAddr, h))

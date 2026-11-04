@@ -1,5 +1,9 @@
 # Changelog — stumble-guys
 
+## v0.3.0 — 2026-11-04
+
+- Account erasure (prds#120): `DELETE /internal/accounts/{account_id}/data` on the health listener (23552; `Authorization: Bearer $ACCOUNT_ERASE_KEY`, unset = 503). Looks up the account's BAAS ids in the core (`ACCOUNT_GRPC_ADDR`, `ACCOUNT_INTERNAL_KEY`, read-only ListAccountLinks; unconfigured = 500) and deletes the `stumble_accounts` rows keyed by them (profile, token, cosmetics, crowns, xp), the kept `stumble_collector` analytics bodies that contain the account's Stumble id, and the matchmaker's in-memory tickets and queued requests for it. Accounts created without an NSA token (`device:<id>` keys) cannot be tied to an OpenPak account and are not touched.
+
 ## v0.2.1 — 2026-11-04
 
 - `POST /request` on the matchmaker: Stumble Guys on the Switch posts `{}` instead of the signed ticket. The request
