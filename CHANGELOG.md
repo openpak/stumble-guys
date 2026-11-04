@@ -1,5 +1,11 @@
 # Changelog — stumble-guys
 
+## v0.2.1 — 2026-11-04
+
+- `POST /request` on the matchmaker: Stumble Guys on the Switch posts `{}` instead of the signed ticket. The request
+  now falls back to the ticket last signed for that session (kept in memory, short-lived) and logs the request header
+  names, so the real wire shape can be measured.
+
 ## v0.2.0 — 2026-11-03
 
 **Accounts and kept analytics live in Postgres.** `users.json` and the `collector/` files are replaced by the tables

@@ -68,10 +68,11 @@ type matchmaker struct {
 	mu       sync.Mutex
 	requests map[string]*mmRequest
 	open     map[string]*lobby
+	tickets  map[string]mmParams // the last ticket signed for a session, for a request that arrives without it
 }
 
 func newMatchmaker() *matchmaker {
-	return &matchmaker{requests: map[string]*mmRequest{}, open: map[string]*lobby{}}
+	return &matchmaker{requests: map[string]*mmRequest{}, open: map[string]*lobby{}, tickets: map[string]mmParams{}}
 }
 
 // matchmakingTicket answers the API's ticket call with signed parameters for this player.
@@ -105,12 +106,22 @@ func (s *server) matchmakingTicket(w http.ResponseWriter, r *http.Request, body 
 		p.UserId, p.UserName = a.ID, a.Username
 	}
 	pj, _ := json.Marshal(p)
+	if sess := requestIdentity(r).Session; sess != "" {
+		s.mm.mu.Lock()
+		s.mm.tickets[sess] = p
+		s.mm.mu.Unlock()
+	}
 	writeJSON(w, http.StatusOK, map[string]any{"Parameters": p, "Signature": s.signJWT(map[string]any{"p": string(pj)})})
 }
 
 // matchmaking serves matchmaking.stumbleguys.com.
 func (s *server) matchmaking(w http.ResponseWriter, r *http.Request, path string, body []byte) {
 	logRequest("mm", r, body)
+	names := make([]string, 0, len(r.Header))
+	for k := range r.Header {
+		names = append(names, k)
+	}
+	log.Printf("[stumble] mm request headers: %s", strings.Join(names, ","))
 	switch {
 	case r.Method == http.MethodPost && strings.TrimSuffix(path, "/") == "/request":
 		var t struct {
@@ -118,6 +129,17 @@ func (s *server) matchmaking(w http.ResponseWriter, r *http.Request, path string
 			Signature  string
 		}
 		if json.Unmarshal(body, &t) != nil || t.Parameters.RequestId == "" {
+			// Stumble Guys on the Switch posts "{}" here (measured 2026-11-04): the ticket it was
+			// handed does not survive its own serializer. The ticket this session was just signed
+			// stands in for it.
+			s.mm.mu.Lock()
+			p, ok := s.mm.tickets[requestIdentity(r).Session]
+			s.mm.mu.Unlock()
+			if ok {
+				log.Printf("[stumble] mm POST /request without parameters; using the session's last ticket")
+				writeJSON(w, http.StatusOK, s.mm.add(p, s))
+				return
+			}
 			writeJSON(w, http.StatusBadRequest, map[string]any{"Status": mmError})
 			return
 		}
