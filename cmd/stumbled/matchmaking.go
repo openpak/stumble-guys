@@ -106,11 +106,13 @@ func (s *server) matchmakingTicket(w http.ResponseWriter, r *http.Request, body 
 		p.UserId, p.UserName = a.ID, a.Username
 	}
 	pj, _ := json.Marshal(p)
+	// Keyed by session when the call carries one, and always as the newest ticket.
+	s.mm.mu.Lock()
 	if sess := requestIdentity(r).Session; sess != "" {
-		s.mm.mu.Lock()
 		s.mm.tickets[sess] = p
-		s.mm.mu.Unlock()
 	}
+	s.mm.tickets["_newest"] = p
+	s.mm.mu.Unlock()
 	writeJSON(w, http.StatusOK, map[string]any{"Parameters": p, "Signature": s.signJWT(map[string]any{"p": string(pj)})})
 }
 
@@ -144,9 +146,7 @@ func (s *server) matchmaking(w http.ResponseWriter, r *http.Request, path string
 				p, ok = s.mm.tickets[requestIdentity(r).Session]
 			}
 			if !ok {
-				for _, t := range s.mm.tickets {
-					p, ok = t, true
-				}
+				p, ok = s.mm.tickets["_newest"]
 			}
 			s.mm.mu.Unlock()
 			if ok {

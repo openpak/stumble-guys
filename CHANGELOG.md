@@ -1,5 +1,10 @@
 # Changelog — stumble-guys
 
+## v0.2.3 — 2026-11-04
+
+- The newest-ticket fallback is kept under its own key: the API call that signs the ticket carried no session the
+  matchmaker could match, so v0.2.2's lookups found nothing.
+
 ## v0.2.2 — 2026-11-04
 
 - Matchmaker `POST /request` with an empty body: the signed ticket may ride in `Authorization` (claim `p`); the fallback
