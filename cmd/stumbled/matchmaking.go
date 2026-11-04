@@ -132,8 +132,22 @@ func (s *server) matchmaking(w http.ResponseWriter, r *http.Request, path string
 			// Stumble Guys on the Switch posts "{}" here (measured 2026-11-04): the ticket it was
 			// handed does not survive its own serializer. The ticket this session was just signed
 			// stands in for it.
+			// The ticket may ride in the Authorization header as the signed token (claim "p");
+			// otherwise the session's last ticket, otherwise the newest one signed.
+			var p mmParams
+			ok := false
+			if pj := jwtClaim(r.Header.Get("Authorization"), "p"); pj != "" && json.Unmarshal([]byte(pj), &p) == nil && p.RequestId != "" {
+				ok = true
+			}
 			s.mm.mu.Lock()
-			p, ok := s.mm.tickets[requestIdentity(r).Session]
+			if !ok {
+				p, ok = s.mm.tickets[requestIdentity(r).Session]
+			}
+			if !ok {
+				for _, t := range s.mm.tickets {
+					p, ok = t, true
+				}
+			}
 			s.mm.mu.Unlock()
 			if ok {
 				log.Printf("[stumble] mm POST /request without parameters; using the session's last ticket")
