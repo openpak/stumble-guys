@@ -1,5 +1,9 @@
 # Changelog — stumble-guys
 
+## v0.3.5 — 2026-11-05
+
+- RoundLevels_v2 lists the two shipped race levels in each pool. With the list empty the client's round setup raised "The sequence requires at least one element" (read from the guest's heap) and dropped the player (prds#12).
+
 ## v0.4.0 — 2026-11-05
 
 - Link at first use (prds#131): `/user/login` answers 403 `account_not_linked` ("Link your OpenPak account to play online") for a Switch credential no active OpenPak account owns, and for a login with no NSA token. With no account core configured (development) the old behaviour stands.
