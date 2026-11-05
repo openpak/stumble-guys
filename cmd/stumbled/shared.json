@@ -404,57 +404,7 @@
   "ContainerItems": []
  },
  "LevelsSettings": {
-  "BotVisuals": [
-   {
-    "StartDateTime": "2020-01-01T00:00:00Z",
-    "EndDateTime": "2099-01-01T00:00:00Z",
-    "ApplyInEveryGameMode": true,
-    "MultiplayerFlowMode": 0,
-    "SpecificEventId": "",
-    "InitialMinTimerToShowEmote": 5,
-    "InitialMaxTimerToShowEmote": 15,
-    "MinTimerToShowEmote": 10,
-    "MaxTimerToShowEmote": 30,
-    "PercentageToShowEmoteAfterBeenStumbled": 20,
-    "PercentageToShowEmoteAfterBeenHitWithAbility": 20,
-    "PercentageToShowEmoteRandomly": 10,
-    "Skins": [
-     {
-      "CosmeticIds": [
-       "SKIN1"
-      ],
-      "PercentageOfBotsUsingThem": 100
-     }
-    ],
-    "Footsteps": [
-     {
-      "CosmeticIds": [
-       "footsteps_smoke"
-      ],
-      "PercentageOfBotsUsingThem": 100
-     }
-    ],
-    "SocialEmotes": [
-     {
-      "CosmeticIds": [
-       "emote_cry",
-       "emote_hi",
-       "emote_gg",
-       "emote_haha"
-      ],
-      "PercentageOfBotsUsingThem": 100
-     }
-    ],
-    "VictoryAnimations": [
-     {
-      "CosmeticIds": [
-       "animation1"
-      ],
-      "PercentageOfBotsUsingThem": 100
-     }
-    ]
-   }
-  ]
+  "BotVisuals": []
  },
  "Clans": {
   "ClanMissionObjectives": [],
