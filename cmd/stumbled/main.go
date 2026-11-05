@@ -11,6 +11,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"io"
 	"log"
@@ -34,6 +35,11 @@ func main() {
 		log.Fatal(err)
 	}
 	s.links = newLinksFromEnv()
+	var follower *grpcProfiles
+	s.profiles, follower = newProfilesFromEnv()
+	if follower != nil {
+		go follower.follow(context.Background(), s.profiles)
+	}
 	go func() {
 		h := http.NewServeMux()
 		h.HandleFunc("/internal/accounts/", eraseHandler("stumble-guys", s.erase))

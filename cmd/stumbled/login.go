@@ -6,10 +6,13 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 	"time"
 )
+
+const linkMessage = "Link your OpenPak account to play online (openpak.org/link)"
 
 //go:embed user.json
 var userTemplate []byte
@@ -26,6 +29,12 @@ func (s *server) login(w http.ResponseWriter, r *http.Request, body []byte) {
 	json.Unmarshal(body, &req)
 	id := requestIdentity(r)
 	key := id.NSAID
+	if key == "" && s.profiles != nil {
+		// Link at first use: a console that sent no NSA token has no OpenPak account behind it.
+		log.Printf("[stumble] login refused: no NSA token")
+		writeJSON(w, http.StatusForbidden, map[string]any{"error": "account_not_linked", "message": linkMessage})
+		return
+	}
 	if key == "" {
 		key = "device:" + req.DeviceId
 	}
@@ -34,11 +43,23 @@ func (s *server) login(w http.ResponseWriter, r *http.Request, body []byte) {
 		writeJSON(w, http.StatusUnauthorized, map[string]any{"error": "unauthorized"})
 		return
 	}
+	if s.profiles != nil {
+		if _, err := s.profiles.get(r.Context(), key); errors.Is(err, errNotLinked) {
+			log.Printf("[stumble] login refused: not linked")
+			writeJSON(w, http.StatusForbidden, map[string]any{"error": "account_not_linked", "message": linkMessage})
+			return
+		} else if err != nil {
+			log.Printf("[stumble] account core: %v", err)
+			writeJSON(w, http.StatusServiceUnavailable, map[string]any{"error": "unavailable"})
+			return
+		}
+	}
 	a := s.users.get(key)
 	if a == nil {
 		writeJSON(w, http.StatusServiceUnavailable, map[string]any{"error": "unavailable"})
 		return
 	}
+	s.fill(r.Context(), a)
 	log.Printf("[stumble] login user=%d version=%s nsa=%t", a.ID, req.Version, id.NSAID != "")
 	writeJSON(w, http.StatusOK, s.userResponse(a, req.Version, req.DeviceId))
 }

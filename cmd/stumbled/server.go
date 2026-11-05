@@ -27,7 +27,8 @@ type server struct {
 	sharedTag string
 	key       []byte
 	mm        *matchmaker
-	links     switchLinks // account core, read-only (erasure); nil when not configured
+	links     switchLinks   // account core, read-only (erasure); nil when not configured
+	profiles  *profileCache // account core: name and country of the linked account; nil when not configured
 }
 
 func keyFromEnv(flagValue string) []byte {

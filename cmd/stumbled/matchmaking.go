@@ -103,6 +103,7 @@ func (s *server) matchmakingTicket(w http.ResponseWriter, r *http.Request, body 
 		p.MaxPlayers = req.StumblePartyParameters.MaxPlayers
 	}
 	if a != nil {
+		s.fill(r.Context(), a)
 		p.UserId, p.UserName = a.ID, a.Username
 	}
 	pj, _ := json.Marshal(p)

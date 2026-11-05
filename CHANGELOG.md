@@ -1,5 +1,10 @@
 # Changelog — stumble-guys
 
+## v0.4.0 — 2026-11-05
+
+- Link at first use (prds#131): `/user/login` answers 403 `account_not_linked` ("Link your OpenPak account to play online") for a Switch credential no active OpenPak account owns, and for a login with no NSA token. With no account core configured (development) the old behaviour stands.
+- Name and country come from the linked core account, cached five minutes and dropped at once on the core's `profile_updated`, `link_unlinked`, `account_deleted` and `account_banned` events. `stumble_accounts.username` and `.country` are dropped at startup (idempotent); crowns, xp and equipped cosmetics stay as game progress, covered by the erasure endpoint.
+
 ## v0.3.4 — 2026-11-05
 
 - MatchmakingPools in the shared config lists three pools. The client picks a pool by id and falls back to the second entry when none matches; with an empty list the round setup threw and the player was dropped to the title screen (prds#12).

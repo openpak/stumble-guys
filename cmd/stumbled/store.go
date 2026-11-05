@@ -23,10 +23,10 @@ type account struct {
 	ID        int    `json:"id"`
 	Key       string `json:"key"` // NSA id, or "device:<id>" when the console sent no NSA token
 	StumbleID string `json:"stumbleId"`
-	Username  string `json:"username"`
+	Username  string `json:"-"` // from the core account, filled per request (coreprofile.go)
 	Token     string `json:"token"`
 	Created   string `json:"created"`
-	Country   string `json:"country"`
+	Country   string `json:"-"` // same
 	Region    string `json:"region"`
 	// Equipped is the client's UserEquippedCosmeticsDto, stored as sent.
 	Equipped json.RawMessage `json:"equipped,omitempty"`
@@ -45,15 +45,15 @@ CREATE TABLE IF NOT EXISTS stumble_accounts (
   id         integer PRIMARY KEY,
   key        text NOT NULL UNIQUE,
   stumble_id text NOT NULL,
-  username   text NOT NULL,
   token      text NOT NULL UNIQUE,
   created    text NOT NULL,
-  country    text NOT NULL,
   region     text NOT NULL,
   equipped   jsonb,
   crowns     integer NOT NULL DEFAULT 0,
   xp         integer NOT NULL DEFAULT 0
 );
+-- 2026-11-05 (prds#131): name and country are the core account's, not ours.
+ALTER TABLE stumble_accounts DROP COLUMN IF EXISTS username, DROP COLUMN IF EXISTS country;
 CREATE TABLE IF NOT EXISTS stumble_collector (
   name        text PRIMARY KEY,
   received_at timestamptz NOT NULL DEFAULT now(),
@@ -120,9 +120,9 @@ func (s *store) importLegacy(ctx context.Context, dir string) error {
 			eq = string(a.Equipped)
 		}
 		ct, err := tx.Exec(ctx, `INSERT INTO stumble_accounts
-(id,key,stumble_id,username,token,created,country,region,equipped,crowns,xp)
-VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb,$10,$11) ON CONFLICT DO NOTHING`,
-			a.ID, a.Key, a.StumbleID, a.Username, a.Token, a.Created, a.Country, a.Region, eq, a.Crowns, a.XP)
+(id,key,stumble_id,token,created,region,equipped,crowns,xp)
+VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8,$9) ON CONFLICT DO NOTHING`,
+			a.ID, a.Key, a.StumbleID, a.Token, a.Created, a.Region, eq, a.Crowns, a.XP)
 		if err != nil {
 			return err
 		}
@@ -175,12 +175,12 @@ func randHex(n int) string {
 	return hex.EncodeToString(b)
 }
 
-const accCols = `id,key,stumble_id,username,token,created,country,region,equipped,crowns,xp`
+const accCols = `id,key,stumble_id,token,created,region,equipped,crowns,xp`
 
 func scanAccount(row pgx.Row) (*account, error) {
 	a := &account{}
 	var eq []byte
-	if err := row.Scan(&a.ID, &a.Key, &a.StumbleID, &a.Username, &a.Token, &a.Created, &a.Country, &a.Region, &eq, &a.Crowns, &a.XP); err != nil {
+	if err := row.Scan(&a.ID, &a.Key, &a.StumbleID, &a.Token, &a.Created, &a.Region, &eq, &a.Crowns, &a.XP); err != nil {
 		return nil, err
 	}
 	if len(eq) > 0 {
@@ -202,9 +202,9 @@ func (s *store) get(key string) *account {
 		return nil
 	}
 	// ON CONFLICT (key): a concurrent first login of the same key wins; re-read below.
-	s.pool.Exec(ctx, `INSERT INTO stumble_accounts (id,key,stumble_id,username,token,created,country,region)
-VALUES ($1,$2,$3,$4,$5,$6,'US','eu') ON CONFLICT (key) DO NOTHING`,
-		id, key, randHex(12), "Stumbler"+itoa(id), randHex(24), nowISO())
+	s.pool.Exec(ctx, `INSERT INTO stumble_accounts (id,key,stumble_id,token,created,region)
+VALUES ($1,$2,$3,$4,$5,'eu') ON CONFLICT (key) DO NOTHING`,
+		id, key, randHex(12), randHex(24), nowISO())
 	a, err := scanAccount(s.pool.QueryRow(ctx, `SELECT `+accCols+` FROM stumble_accounts WHERE key=$1`, key))
 	if err != nil {
 		log.Printf("[stumble] account %q: %v", key, err)
@@ -231,8 +231,8 @@ func (s *store) update(a *account, f func(*account)) {
 	if len(a.Equipped) > 0 && json.Valid(a.Equipped) {
 		eq = string(a.Equipped)
 	}
-	if _, err := s.pool.Exec(ctx, `UPDATE stumble_accounts SET username=$2,country=$3,region=$4,equipped=$5::jsonb,crowns=$6,xp=$7 WHERE id=$1`,
-		a.ID, a.Username, a.Country, a.Region, eq, a.Crowns, a.XP); err != nil {
+	if _, err := s.pool.Exec(ctx, `UPDATE stumble_accounts SET region=$2,equipped=$3::jsonb,crowns=$4,xp=$5 WHERE id=$1`,
+		a.ID, a.Region, eq, a.Crowns, a.XP); err != nil {
 		log.Printf("[stumble] update account %d: %v", a.ID, err)
 	}
 }
