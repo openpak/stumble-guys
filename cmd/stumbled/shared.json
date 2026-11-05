@@ -153,74 +153,7 @@
  "Footsteps_v2": [],
  "Emotes_v2": [],
  "Animations_v2": [],
- "RoundLevels_v2": [
-  {
-   "LevelID": "IPL_047_Flame",
-   "AllowedRounds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ],
-   "MatchmakingPool": 1
-  },
-  {
-   "LevelID": "IPL_047_Flame",
-   "AllowedRounds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ],
-   "MatchmakingPool": 2
-  },
-  {
-   "LevelID": "IPL_047_Flame",
-   "AllowedRounds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ],
-   "MatchmakingPool": 3
-  },
-  {
-   "LevelID": "SSL_015_slides",
-   "AllowedRounds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ],
-   "MatchmakingPool": 1
-  },
-  {
-   "LevelID": "SSL_015_slides",
-   "AllowedRounds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ],
-   "MatchmakingPool": 2
-  },
-  {
-   "LevelID": "SSL_015_slides",
-   "AllowedRounds": [
-    1,
-    2,
-    3,
-    4,
-    5
-   ],
-   "MatchmakingPool": 3
-  }
- ],
+ "RoundLevels_v2": [],
  "ExcludedLevels": {
   "Groups": []
  },

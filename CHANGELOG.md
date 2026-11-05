@@ -1,5 +1,9 @@
 # Changelog — stumble-guys
 
+## v0.3.6 — 2026-11-05
+
+- RoundLevels_v2 is empty again: with the two entries of v0.3.5 the client never finished logging in.
+
 ## v0.3.5 — 2026-11-05
 
 - RoundLevels_v2 lists the two shipped race levels in each pool. With the list empty the client's round setup raised "The sequence requires at least one element" (read from the guest's heap) and dropped the player (prds#12).
