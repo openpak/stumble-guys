@@ -1,6 +1,6 @@
 # Changelog — stumble-guys
 
-## v0.4.0 — 2026-11-05
+## v0.4.1 — 2026-11-05
 
 - GET /bots lists 24 bots whose cosmetics come from the served config (an empty list while the config has no cosmetics). Catalog generator: cosmetics carry Platforms [Switch], MinVersion 0.0.0, MaxVersion 999.0.0; an empty MinVersion stalled the client login (prds#12).
 
@@ -20,7 +20,7 @@
 
 - RoundLevels_v2 lists the two shipped race levels in each pool. With the list empty the client's round setup raised "The sequence requires at least one element" (read from the guest's heap) and dropped the player (prds#12).
 
-## v0.4.0 — 2026-11-05
+## v0.4.1 — 2026-11-05
 
 - Link at first use (prds#131): `/user/login` answers 403 `account_not_linked` ("Link your OpenPak account to play online") for a Switch credential no active OpenPak account owns, and for a login with no NSA token. With no account core configured (development) the old behaviour stands.
 - Name and country come from the linked core account, cached five minutes and dropped at once on the core's `profile_updated`, `link_unlinked`, `account_deleted` and `account_banned` events. `stumble_accounts.username` and `.country` are dropped at startup (idempotent); crowns, xp and equipped cosmetics stay as game progress, covered by the erasure endpoint.
