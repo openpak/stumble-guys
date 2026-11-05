@@ -114,7 +114,7 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, []any{})
 	case "/bots":
 		// A list of BotDefinition; an empty list makes the client add its own built-in bots.
-		writeJSON(w, http.StatusOK, []any{})
+		writeJSON(w, http.StatusOK, s.botDefinitions())
 	case "/user-equipped-cosmetics/update":
 		s.equip(w, r, body)
 	case "/matchmaking/create/signature/latest", "/matchmaking/tournamentX/signature":

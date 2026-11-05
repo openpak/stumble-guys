@@ -1,5 +1,9 @@
 # Changelog — stumble-guys
 
+## v0.4.0 — 2026-11-05
+
+- GET /bots lists 24 bots whose cosmetics come from the served config (an empty list while the config has no cosmetics). Catalog generator: cosmetics carry Platforms [Switch], MinVersion 0.0.0, MaxVersion 999.0.0; an empty MinVersion stalled the client login (prds#12).
+
 ## v0.3.9 — 2026-11-05
 
 - tools/catalog/gen_catalog.py: writes the cosmetics (skins, footsteps, animations, emotes), bot visuals and round levels of the shared config from the game's data.unity3d, so a game update is a re-run. Not applied to shared.json: the client stalls on "Logging in..." with these sections filled (prds#12), so the cause has to be found first.

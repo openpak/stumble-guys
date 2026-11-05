@@ -33,7 +33,7 @@ def strings(raw):
 
 def cosmetic(id_, version="0.1"):
     return {"Hidden": False, "NoGacha": True, "FriendlyName": id_, "Rarity": "COMMON", "Tier": 1, "Version": version,
-            "Platforms": [], "MinVersion": "", "MaxVersion": ""}
+            "Platforms": ["Switch"], "MinVersion": "0.0.0", "MaxVersion": "999.0.0"}
 
 
 def main():
