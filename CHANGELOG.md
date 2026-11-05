@@ -1,5 +1,9 @@
 # Changelog — stumble-guys
 
+## v0.3.7 — 2026-11-05
+
+- LevelsSettings.BotVisuals has one entry (SKIN1, footsteps_smoke, the four default emotes, animation1) for every mode. The client's bot cosmetics step ran before the simulation start with an empty list and threw "The sequence requires at least one element", dropping the player (prds#12; found from the guest heap and the disconnect telemetry).
+
 ## v0.3.6 — 2026-11-05
 
 - RoundLevels_v2 is empty again: with the two entries of v0.3.5 the client never finished logging in.
