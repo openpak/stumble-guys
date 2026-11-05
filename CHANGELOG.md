@@ -1,5 +1,12 @@
 # Changelog — stumble-guys
 
+## v0.3.1 — 2026-11-05
+
+- Release-order repair (prds#120). v0.3.0 (account erasure, below) was tagged on its own commit, then v0.2.2 and v0.2.3
+  were cut from main afterwards, so ghcr `:latest` stayed at 0.2.3 and the erase endpoint never reached production.
+  main holds everything (erasure plus the matchmaker fixes); this tag is the first build that carries both and is
+  newer than every earlier tag. No code change.
+
 ## v0.2.3 — 2026-11-04
 
 - The newest-ticket fallback is kept under its own key: the API call that signs the ticket carried no session the
