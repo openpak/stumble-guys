@@ -90,6 +90,10 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]any{})
 		return
 	}
+	// The client sends some calls with a trailing slash (/matchmaking/create/signature/latest/).
+	if len(path) > 1 {
+		path = strings.TrimSuffix(path, "/")
+	}
 	switch path {
 	case "/user/login":
 		s.login(w, r, body)

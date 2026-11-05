@@ -1,5 +1,10 @@
 # Changelog — stumble-guys
 
+## v0.3.2 — 2026-11-05
+
+- The API now matches a trailing slash: Stumble Guys calls `/matchmaking/create/signature/latest/`, which fell through to the
+  empty default answer, so the client never held a ticket and posted `{}` to the matchmaker (prds#12).
+
 ## v0.3.1 — 2026-11-05
 
 - Release-order repair (prds#120). v0.3.0 (account erasure, below) was tagged on its own commit, then v0.2.2 and v0.2.3
