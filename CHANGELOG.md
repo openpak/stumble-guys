@@ -1,5 +1,9 @@
 # Changelog — stumble-guys
 
+## v0.3.9 — 2026-11-05
+
+- tools/catalog/gen_catalog.py: writes the cosmetics (skins, footsteps, animations, emotes), bot visuals and round levels of the shared config from the game's data.unity3d, so a game update is a re-run. Not applied to shared.json: the client stalls on "Logging in..." with these sections filled (prds#12), so the cause has to be found first.
+
 ## v0.3.8 — 2026-11-05
 
 - BotVisuals is empty again (v0.3.7 reverted): with one entry the client stalled on "Logging in..." after fetching /user/config. The empty bot list is what raises "The sequence requires at least one element" before the simulation starts; a consistent cosmetics config is the next step (prds#12).
