@@ -119,7 +119,35 @@
   "AnchorOffers": [],
   "OfferSequences": []
  },
- "MatchmakingPools": [],
+ "MatchmakingPools": [
+  {
+   "ID": 1,
+   "Name": "Pool1",
+   "MaxPlayers": 32,
+   "MinRating": 0,
+   "WaitTime": 15,
+   "MinBotDifficulty": 0,
+   "MaxBotDifficulty": 2
+  },
+  {
+   "ID": 2,
+   "Name": "Pool2",
+   "MaxPlayers": 32,
+   "MinRating": 0,
+   "WaitTime": 15,
+   "MinBotDifficulty": 0,
+   "MaxBotDifficulty": 2
+  },
+  {
+   "ID": 3,
+   "Name": "Pool3",
+   "MaxPlayers": 32,
+   "MinRating": 0,
+   "WaitTime": 15,
+   "MinBotDifficulty": 0,
+   "MaxBotDifficulty": 2
+  }
+ ],
  "Levels": [],
  "Skins_v4": [],
  "Footsteps_v2": [],

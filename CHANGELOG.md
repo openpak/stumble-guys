@@ -1,5 +1,9 @@
 # Changelog — stumble-guys
 
+## v0.3.4 — 2026-11-05
+
+- MatchmakingPools in the shared config lists three pools. The client picks a pool by id and falls back to the second entry when none matches; with an empty list the round setup threw and the player was dropped to the title screen (prds#12).
+
 ## v0.3.3 — 2026-11-05
 
 - Photon app id mapping now names the Switch platform and a version range. The client sent an empty app id to Photon with the
