@@ -1,5 +1,9 @@
 # Changelog — stumble-guys
 
+## v0.3.8 — 2026-11-05
+
+- BotVisuals is empty again (v0.3.7 reverted): with one entry the client stalled on "Logging in..." after fetching /user/config. The empty bot list is what raises "The sequence requires at least one element" before the simulation starts; a consistent cosmetics config is the next step (prds#12).
+
 ## v0.3.6 — 2026-11-05
 
 - RoundLevels_v2 is empty again: with the two entries of v0.3.5 the client never finished logging in.
