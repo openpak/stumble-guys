@@ -1,5 +1,10 @@
 # Changelog — stumble-guys
 
+## v0.3.3 — 2026-11-05
+
+- Photon app id mapping now names the Switch platform and a version range. The client sent an empty app id to Photon with the
+  unbounded mapping, so the Quantum room was never recognised and the round never started (prds#12).
+
 ## v0.3.2 — 2026-11-05
 
 - The API now matches a trailing slash: Stumble Guys calls `/matchmaking/create/signature/latest/`, which fell through to the

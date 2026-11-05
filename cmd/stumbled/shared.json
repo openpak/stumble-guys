@@ -256,9 +256,11 @@
   "PhotonAppIdMappers": [
    {
     "AppId": "d5750eb9-cd08-4683-8acb-ab4eaff437ed",
-    "Platforms": [],
-    "MinVersion": "",
-    "MaxVersion": ""
+    "Platforms": [
+     "Switch"
+    ],
+    "MinVersion": "0.0.0",
+    "MaxVersion": "999.0.0"
    }
   ]
  },
